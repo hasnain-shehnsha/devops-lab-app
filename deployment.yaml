@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-lab-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devops-lab-app
+  template:
+    metadata:
+      labels:
+        app: devops-lab-app
+    spec:
+      containers:
+      - name: devops-lab-app
+        image: devops-lab-app:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devops-lab-service
+spec:
+  selector:
+    app: devops-lab-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+  type: NodePort
